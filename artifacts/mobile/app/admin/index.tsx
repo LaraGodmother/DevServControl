@@ -6,6 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { useData } from "@/context/DataContext";
+import { useNotifications } from "@/context/NotificationContext";
 import { StatCard } from "@/components/StatCard";
 import { BRAND } from "@/constants/theme";
 
@@ -27,28 +28,87 @@ export default function AdminDashboard() {
   const insets = useSafeAreaInsets();
   const { user } = useAuth();
   const { orders, budgets, appointments, clients, loading, loadAll } = useData() as any;
+  const { unreadCount, openPanel } = useNotifications();
 
-  const pendingOrders = orders?.filter((o: any) => o.status === "pendente")?.length ?? 0;
-  const pendingBudgets = budgets?.filter((b: any) => b.status === "aguardando")?.length ?? 0;
+  const pendingOrders = orders?.filter((o: any) => o.status === "pendente" || o.status === "pending")?.length ?? 0;
+  const pendingBudgets = budgets?.filter((b: any) => b.status === "aguardando" || b.status === "pending")?.length ?? 0;
   const todayAppts = appointments?.filter((a: any) => a.date === new Date().toISOString().slice(0, 10))?.length ?? 0;
-  const totalRevenue = orders?.filter((o: any) => o.status === "concluido")?.reduce((s: number, o: any) => s + (o.amountPaid || 0), 0) ?? 0;
+  const totalRevenue = orders?.filter((o: any) => o.status === "concluido" || o.status === "done")?.reduce((s: number, o: any) => s + Number(o.amountPaid || 0), 0) ?? 0;
 
   const topInset = Platform.OS === "web" ? 67 : insets.top;
 
+  const totalBadge = unreadCount > 0 ? unreadCount : (pendingOrders + pendingBudgets);
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
+      {/* Header */}
       <View style={{ backgroundColor: BRAND.colors.primary, paddingTop: topInset + 8, paddingBottom: 20, paddingHorizontal: 20 }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <View>
             <Text style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", fontFamily: "Inter_400Regular" }}>Bem-vindo,</Text>
             <Text style={{ fontSize: 20, fontFamily: "Inter_700Bold", color: "#fff" }}>{user?.name?.split(" ")[0] ?? "Admin"}</Text>
           </View>
-          <Image source={BRAND.logo} style={{ width: 40, height: 40, borderRadius: 10 }} />
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+            {/* Bell icon */}
+            <TouchableOpacity onPress={openPanel} activeOpacity={0.75} style={{ position: "relative" }}>
+              <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: "rgba(255,255,255,0.15)", alignItems: "center", justifyContent: "center" }}>
+                <Feather name="bell" size={20} color="#fff" />
+              </View>
+              {totalBadge > 0 && (
+                <View style={{
+                  position: "absolute", top: 0, right: 0,
+                  width: 18, height: 18, borderRadius: 9,
+                  backgroundColor: BRAND.colors.accent,
+                  alignItems: "center", justifyContent: "center",
+                  borderWidth: 2, borderColor: BRAND.colors.primary,
+                }}>
+                  <Text style={{ fontSize: 10, color: "#fff", fontFamily: "Inter_700Bold" }}>
+                    {totalBadge > 99 ? "99+" : String(totalBadge)}
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
+            <Image source={BRAND.logo} style={{ width: 40, height: 40, borderRadius: 10 }} />
+          </View>
         </View>
       </View>
 
       <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={loadAll} />} showsVerticalScrollIndicator={false}>
         <View style={{ padding: 20, gap: 16 }}>
+
+          {/* Alert banner when there are pending items */}
+          {(pendingOrders + pendingBudgets) > 0 && (
+            <TouchableOpacity
+              onPress={openPanel}
+              activeOpacity={0.8}
+              style={{
+                backgroundColor: BRAND.colors.accentLight,
+                borderRadius: 14,
+                padding: 14,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 12,
+                borderLeftWidth: 4,
+                borderLeftColor: BRAND.colors.accent,
+              }}
+            >
+              <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: BRAND.colors.accent, alignItems: "center", justifyContent: "center" }}>
+                <Feather name="alert-circle" size={18} color="#fff" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 13, fontFamily: "Inter_700Bold", color: BRAND.colors.accentDark }}>
+                  {pendingOrders + pendingBudgets} ite{(pendingOrders + pendingBudgets) > 1 ? "ns" : "m"} aguardando atenção
+                </Text>
+                <Text style={{ fontSize: 12, color: BRAND.colors.accentDark }}>
+                  {pendingOrders > 0 ? `${pendingOrders} ordem(ns) pendente(s)` : ""}
+                  {pendingOrders > 0 && pendingBudgets > 0 ? " · " : ""}
+                  {pendingBudgets > 0 ? `${pendingBudgets} orçamento(s) aguardando` : ""}
+                </Text>
+              </View>
+              <Feather name="chevron-right" size={16} color={BRAND.colors.accentDark} />
+            </TouchableOpacity>
+          )}
+
           <View style={{ flexDirection: "row", gap: 12 }}>
             <StatCard title="Ordens Pendentes" value={pendingOrders} icon="tool" iconColor="#f59e0b" iconBg="#fef3c7" />
             <StatCard title="Orçamentos Aguard." value={pendingBudgets} icon="file-text" iconColor="#3b82f6" iconBg="#dbeafe" />

@@ -122,6 +122,23 @@ export interface ScheduleConfig {
   blockedDates: string[];
 }
 
+export interface ApiNotification {
+  id: string;
+  type: "budget" | "order" | "chat";
+  title: string;
+  body: string;
+  status?: string | null;
+  route: string;
+  createdAt: string | null;
+}
+
+export interface ApiNotificationsResponse {
+  notifications: ApiNotification[];
+  unread: number;
+  pendingBudgets: number;
+  pendingOrders: number;
+}
+
 export interface ApiAvailability {
   available: string[];
   booked: string[];
@@ -236,4 +253,9 @@ export const api = {
     request<ScheduleConfig>("/admin/schedule-config", { method: "PATCH", body: JSON.stringify(data) }),
   getAvailability: (date: string) =>
     request<ApiAvailability>(`/admin/availability?date=${date}`),
+
+  getNotifications: (since?: string) =>
+    request<ApiNotificationsResponse>(`/admin/notifications${since ? `?since=${encodeURIComponent(since)}` : ""}`),
+  markNotificationsRead: () =>
+    request<{ success: boolean; markedAt: string }>("/admin/notifications/mark-read", { method: "POST" }),
 };

@@ -11,6 +11,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import { DataProvider } from "@/context/DataContext";
 import { SettingsProvider } from "@/context/SettingsContext";
 import { StoreProvider } from "@/context/StoreContext";
+import { NotificationProvider } from "@/context/NotificationContext";
+import { NotificationPanel } from "@/components/NotificationPanel";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -64,13 +66,16 @@ export default function RootLayout() {
           <GestureHandlerRootView style={{ flex: 1 }}>
             <KeyboardProvider>
               <AuthProvider>
-                <SettingsProvider>
-                  <DataProvider>
-                    <StoreProvider>
-                      <RootLayoutNav />
-                    </StoreProvider>
-                  </DataProvider>
-                </SettingsProvider>
+                <NotificationProvider>
+                  <SettingsProvider>
+                    <DataProvider>
+                      <StoreProvider>
+                        <RootLayoutNav />
+                        <NotificationPanel />
+                      </StoreProvider>
+                    </DataProvider>
+                  </SettingsProvider>
+                </NotificationProvider>
               </AuthProvider>
             </KeyboardProvider>
           </GestureHandlerRootView>

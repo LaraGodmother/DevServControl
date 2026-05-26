@@ -11,6 +11,7 @@ import chatRouter from "./chat";
 import companySettingsRouter from "./companySettings";
 import scheduleRouter from "./schedule";
 import exportsRouter from "./exports";
+import notificationsRouter from "./notifications";
 
 const router: IRouter = Router();
 
@@ -26,5 +27,6 @@ router.use(chatRouter);
 router.use(companySettingsRouter);
 router.use(scheduleRouter);
 router.use(exportsRouter);
+router.use(notificationsRouter);
 
 export default router;
