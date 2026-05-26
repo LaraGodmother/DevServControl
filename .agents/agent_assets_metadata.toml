@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "0_67Ba3UgZRCofKMxrk52"
+uri = "file://artifacts/mobile/assets/images/icon.png"
+type = "image"
+title = "angelmarc service app icon"
