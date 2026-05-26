@@ -1,0 +1,4 @@
+.env
+artifacts/api-server/.env
+node_modules
+dist
