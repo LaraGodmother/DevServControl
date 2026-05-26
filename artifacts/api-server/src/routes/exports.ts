@@ -30,7 +30,7 @@ router.get("/export/clientes.csv", async (_req, res) => {
     const clients = await db.select({ id: usersTable.id, name: usersTable.name, email: usersTable.email, phone: usersTable.phone, createdAt: usersTable.createdAt })
       .from(usersTable).where(eq(usersTable.role, "client")).orderBy(usersTable.name);
     const lines = [row("ID","Nome","E-mail","Telefone","Cadastrado em"), ...clients.map(c => row(c.id,c.name,c.email,c.phone??"",fmtDate(c.createdAt)))];
-    sendCsv(res, `clientes_angelmarc_${new Date().toISOString().slice(0,10)}.csv`, lines);
+    sendCsv(res, `clientes_servcontrol_${new Date().toISOString().slice(0,10)}.csv`, lines);
   } catch { res.status(500).json({ error: "Erro ao gerar exportação." }); }
 });
 
@@ -45,7 +45,7 @@ router.get("/export/orcamentos.csv", async (_req, res) => {
     const STATUS: Record<string,string> = { pending:"Aguardando", approved:"Aprovado", rejected:"Recusado", counter_proposal:"Contraproposta", closed:"Fechado" };
     const lines = [row("ID","Cliente","Serviço","Valor base (R$)","Margem (%)","Valor final (R$)","Status","Observações","Data"),
       ...rows.map(b => row(b.id,b.clientName??"",b.serviceName??"",fmtBrl(b.baseValue),`${b.profitMargin??0}%`,fmtBrl(b.finalValue),STATUS[b.status??""??b.status??""]??b.status??"",b.observations??"",fmtDate(b.createdAt)))];
-    sendCsv(res, `orcamentos_angelmarc_${new Date().toISOString().slice(0,10)}.csv`, lines);
+    sendCsv(res, `orcamentos_servcontrol_${new Date().toISOString().slice(0,10)}.csv`, lines);
   } catch { res.status(500).json({ error: "Erro ao gerar exportação." }); }
 });
 
@@ -61,7 +61,7 @@ router.get("/export/ordens.csv", async (_req, res) => {
     const STATUS: Record<string,string> = { pending:"Pendente", in_progress:"Em Andamento", done:"Concluído", cancelled:"Cancelado" };
     const lines = [row("ID","Cliente","Serviço","Valor","Descrição","Status","Pagamento","Valor pago","Data preferida","Criado em"),
       ...rows.map(r => row(r.id,r.clientName??"",r.serviceName??"",fmtBrl(r.basePrice),r.description??"",STATUS[r.status??""??r.status??""]??r.status??"",r.paymentMethod??"",fmtBrl(r.amountPaid),r.preferredDate??"",fmtDate(r.createdAt)))];
-    sendCsv(res, `ordens_angelmarc_${new Date().toISOString().slice(0,10)}.csv`, lines);
+    sendCsv(res, `ordens_servcontrol_${new Date().toISOString().slice(0,10)}.csv`, lines);
   } catch { res.status(500).json({ error: "Erro ao gerar exportação." }); }
 });
 
@@ -70,7 +70,7 @@ router.get("/export/servicos.csv", async (_req, res) => {
     const services = await db.select().from(servicesTable).orderBy(servicesTable.name);
     const lines = [row("ID","Nome","Descrição","Preço base","Margem","Ativo","Regras","Criado em"),
       ...services.map(s => row(s.id,s.name,s.description,fmtBrl(s.basePrice),`${s.profitMargin}%`,s.active?"Sim":"Não",s.rules??"",fmtDate(s.createdAt)))];
-    sendCsv(res, `servicos_angelmarc_${new Date().toISOString().slice(0,10)}.csv`, lines);
+    sendCsv(res, `servicos_servcontrol_${new Date().toISOString().slice(0,10)}.csv`, lines);
   } catch { res.status(500).json({ error: "Erro ao gerar exportação." }); }
 });
 

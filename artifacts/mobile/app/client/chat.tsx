@@ -69,7 +69,7 @@ export default function ClientChatScreen() {
           <Text style={{ fontFamily: "Inter_700Bold", color: BRAND.colors.primary, fontSize: 14 }}>A</Text>
         </View>
         <View>
-          <Text style={{ fontSize: 15, fontFamily: "Inter_600SemiBold", color: colors.foreground }}>Angelmarc Suporte</Text>
+          <Text style={{ fontSize: 15, fontFamily: "Inter_600SemiBold", color: colors.foreground }}>ServControl Suporte</Text>
           <Text style={{ fontSize: 12, color: "#22c55e" }}>Online</Text>
         </View>
       </View>

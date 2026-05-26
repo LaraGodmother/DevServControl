@@ -28,17 +28,16 @@ export default function LandingScreen() {
   const press = () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
 
   return (
-    <LinearGradient colors={[BRAND.colors.primaryDark, BRAND.colors.primary, "#2a44a0"]} style={styles.container}>
+    <LinearGradient colors={[BRAND.colors.primaryDark, BRAND.colors.primary, "#2196F3"]} style={styles.container}>
       <View style={styles.content}>
         <View style={styles.logoContainer}>
-          <Image source={require("../assets/images/icon.png")} style={styles.logo} resizeMode="contain" />
+          <Image source={BRAND.logo} style={styles.logo} resizeMode="contain" />
         </View>
 
         <Text style={styles.title}>ServControl</Text>
         <Text style={styles.subtitle}>{BRAND.company.tagline}</Text>
 
         <View style={styles.divider} />
-        <Text style={styles.company}>{BRAND.company.name}</Text>
 
         <View style={styles.buttons}>
           <Pressable
@@ -76,17 +75,16 @@ export default function LandingScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: 32 },
-  logoContainer: { width: 110, height: 110, borderRadius: 26, backgroundColor: "rgba(255,255,255,0.15)", alignItems: "center", justifyContent: "center", marginBottom: 24 },
-  logo: { width: 80, height: 80 },
+  logoContainer: { width: 130, height: 130, borderRadius: 30, backgroundColor: "rgba(255,255,255,0.15)", alignItems: "center", justifyContent: "center", marginBottom: 20 },
+  logo: { width: 110, height: 110 },
   title: { fontSize: 38, fontFamily: "Inter_700Bold", color: "#fff", letterSpacing: -1, marginBottom: 8 },
-  subtitle: { fontSize: 14, color: "rgba(255,255,255,0.75)", fontFamily: "Inter_400Regular", textAlign: "center", lineHeight: 22, marginBottom: 20 },
-  divider: { width: 40, height: 2, backgroundColor: "rgba(255,255,255,0.3)", marginBottom: 12 },
-  company: { fontSize: 12, color: "rgba(255,255,255,0.55)", fontFamily: "Inter_500Medium", textAlign: "center", marginBottom: 40 },
+  subtitle: { fontSize: 14, color: "rgba(255,255,255,0.75)", fontFamily: "Inter_400Regular", textAlign: "center", lineHeight: 22, marginBottom: 32 },
+  divider: { width: 40, height: 2, backgroundColor: "rgba(255,255,255,0.3)", marginBottom: 32 },
   buttons: { width: "100%", gap: 14 },
-  btnPrimary: { backgroundColor: "#CC2020", borderRadius: 14, paddingVertical: 16, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 10 },
+  btnPrimary: { backgroundColor: "#F57C00", borderRadius: 14, paddingVertical: 16, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 10 },
   btnPrimaryText: { color: "#fff", fontSize: 16, fontFamily: "Inter_600SemiBold" },
   btnSecondary: { backgroundColor: "#fff", borderRadius: 14, paddingVertical: 16, alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 10 },
-  btnSecondaryText: { color: "#1B2D6B", fontSize: 16, fontFamily: "Inter_600SemiBold" },
+  btnSecondaryText: { color: "#1976D2", fontSize: 16, fontFamily: "Inter_600SemiBold" },
   btnGhost: { alignItems: "center", paddingVertical: 10 },
   btnGhostText: { color: "rgba(255,255,255,0.7)", fontSize: 13, fontFamily: "Inter_400Regular", textDecorationLine: "underline" },
   footer: { paddingBottom: Platform.OS === "web" ? 24 : 40, alignItems: "center" },

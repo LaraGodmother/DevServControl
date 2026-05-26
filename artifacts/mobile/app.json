@@ -1,31 +1,31 @@
 {
   "expo": {
-    "name": "ServControl — Angelmarc",
+    "name": "ServControl",
     "slug": "mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "scheme": "servcontrol",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1B2D6B"
+      "backgroundColor": "#1976D2"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.angelmarc.servcontrol"
+      "bundleIdentifier": "com.servcontrol.app"
     },
     "android": {
-      "package": "com.angelmarc.servcontrol",
+      "package": "com.servcontrol.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "#1B2D6B"
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#1976D2"
       }
     },
     "web": {
-      "favicon": "./assets/images/icon.png"
+      "favicon": "./assets/images/logo.png"
     },
     "plugins": [
       [

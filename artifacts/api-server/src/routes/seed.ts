@@ -20,7 +20,7 @@ export async function seedDatabase() {
     const existingAdmin = await db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.role, "admin"));
     if (Number(existingAdmin[0].count) === 0) {
       const passwordHash = await bcrypt.hash("admin123", 12);
-      await db.insert(usersTable).values({ name: "Administrador", email: "admin@angelmarc.com", passwordHash, role: "admin", phone: "(11) 98520-6774" });
+      await db.insert(usersTable).values({ name: "Administrador", email: "admin@servcontrol.com", passwordHash, role: "admin", phone: "(11) 98520-6774" });
       console.log("✅ Admin inserido com seed.");
     }
   } catch (err) {
